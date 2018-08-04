@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.png';
 
+import QRCode from 'qrcode-react';
+
 import './App.css';
 let BITBOXCli = require('bitbox-cli/lib/bitbox-cli').default;
 let BITBOX = new BITBOXCli();
@@ -27,6 +29,9 @@ let rootSeed = BITBOX.Mnemonic.toSeed(mnemonic);
 // master HDNode
 let masterHDNode = BITBOX.HDNode.fromSeed(rootSeed, 'bitcoincash');
 
+// extended public key
+let xpubkey = BITBOX.HDNode.toXPub(masterHDNode);
+
 // HDNode of BIP44 account
 let account = BITBOX.HDNode.derivePath(masterHDNode, "m/44'/145'/0'");
 
@@ -36,6 +41,11 @@ let change = BITBOX.HDNode.derivePath(account, "0/0");
 // get the cash address
 let cashAddress = BITBOX.HDNode.toCashAddress(change);
 
+// BIP21 Payment URL
+let bip21options = {
+  amount: 0.00015,                  //Value in BTC decimals
+  label: "Test BIP21 Payment URL"
+};
 
 class App extends Component {
   constructor(props) {
@@ -107,10 +117,19 @@ class App extends Component {
 
   render() {
     let addresses = [];
+    
     for(let i = 0; i < 10; i++) {
       let account = masterHDNode.derivePath(`m/44'/145'/0'/0/${i}`);
       addresses.push(<li key={i}>m/44&rsquo;/145&rsquo;/0&rsquo;/0/{i}: {BITBOX.HDNode.toCashAddress(account)}</li>);
     }
+
+    let addressList = [];
+
+    for(let i = 0; i < 10; i++) {
+      let account = masterHDNode.derivePath(`m/44'/145'/0'/0/${i}`);
+      addressList.push(BITBOX.HDNode.toCashAddress(account));
+    }
+
     return (
       <div className="App">
         <header className="App-header">
@@ -126,6 +145,12 @@ class App extends Component {
             "m/44'/145'/0'"
             </code>
           </p>
+          <h3>Extended Public Key</h3>
+          <p>{xpubkey}</p>
+          <QRCode value={xpubkey} />
+          <h3>BIP21 Payment URL</h3>
+          <p>15 000 satoshis</p>
+          <QRCode value={BITBOX.BitcoinCash.encodeBIP21(addressList[0], bip21options)} />
           <h3>BIP44 external change addresses</h3>
           <ul>
             {addresses}
