@@ -117,7 +117,11 @@ module.exports = (options) => ({
       'browser',
       'jsnext:main',
       'main'
-    ]
+    ],
+    alias: {
+    // use React component for example
+    'numeric-keyboard$': 'numeric-keyboard/dist/numeric_keyboard.react.js'
+  }
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
