@@ -6,14 +6,8 @@ import calculate from "../../components/logic/calculate";
 import './style.scss';
 
 import QRCode from 'qrcode-react';
-import NumPadMaterial from 'react-numpad-material';
-import NumPad from 'react-numpad';
-import { NumericInput } from 'numeric-keyboard';
 
 import { getBIP21URL } from '../../services/paymentApi';
-
-let BITBOXCli = require('bitbox-cli/lib/bitbox-cli').default;
-let BITBOX = new BITBOXCli();
 
 export default class CashierPOS extends React.Component {
   constructor(props) {
