@@ -5,9 +5,9 @@ import ButtonPanel from "../../components/ButtonPanel";
 import calculate from "../../components/logic/calculate";
 import './style.scss';
 
-import QRCode from 'qrcode-react';
-
 import { getBIP21URL } from '../../services/paymentApi';
+
+import NumPad from "../../components/NumPad";
 
 export default class CashierPOS extends React.Component {
   constructor(props) {
@@ -31,7 +31,6 @@ export default class CashierPOS extends React.Component {
           <meta name="description" content="CashierPOS Page" />
         </Helmet>
         <h1>CashierPOS</h1>
-        <label>Amount: </label>
         <div className="component-app">
           <Display value={this.state.next || this.state.total || "0"} />
           <ButtonPanel clickHandler={this.handleClick} />

@@ -1,5 +1,6 @@
-let BITBOXCli = require('bitbox-cli/lib/bitbox-cli').default;
+import QRCode from 'qrcode-react';
 
+let BITBOXCli = require('bitbox-cli/lib/bitbox-cli').default;
 let BITBOX;
 
 function initBITBOX() {
