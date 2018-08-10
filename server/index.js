@@ -1,8 +1,8 @@
 /* eslint consistent-return:0 */
 
 const express = require('express');
+const mongoose = require('mongoose');
 const logger = require('./util//logger');
-
 const argv = require('./util/argv');
 const port = require('./util//port');
 const setup = require('./middlewares/frontendMiddleware');
