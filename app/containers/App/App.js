@@ -7,34 +7,30 @@
  */
 
 import React from 'react';
-import {Helmet} from 'react-helmet';
-import {Switch, Route} from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 import CustomerPOS from 'containers/CustomerPOS/Loadable';
 import CashierPOS from 'containers/CashierPOS/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import Header from 'components/Header';
-import Footer from 'components/Footer';
+import NavBar from '../../components/NavBar';
 import './style.scss';
 
 const App = () => (
   <div className="app-wrapper">
-    <Helmet
-      titleTemplate="%s - React.js Boilerplate"
-      defaultTitle="React.js Boilerplate">
-      <meta name="description" content="A React.js Boilerplate application"/>
+    <Helmet titleTemplate="%s BCHPOS">
+      <meta name="description" content="A React.js Boilerplate application" />
     </Helmet>
-    <Header/>
+    <NavBar />
     <Switch>
-      <Route exact path="/" component={HomePage}/>
-      <Route path="/features" component={FeaturePage}/>
-      <Route path="/customerpos" component={CustomerPOS}/>
-      <Route path="/cashierpos" component={CashierPOS}/>
-      <Route path="" component={NotFoundPage}/>
+      <Route exact path="/" component={HomePage} />
+      <Route path="/features" component={FeaturePage} />
+      <Route path="/customerpos" component={CustomerPOS} />
+      <Route path="/cashierpos" component={CashierPOS} />
+      <Route path="" component={NotFoundPage} />
     </Switch>
-    <Footer/>
   </div>
 );
 
