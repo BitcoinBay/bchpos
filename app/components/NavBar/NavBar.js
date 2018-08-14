@@ -42,6 +42,9 @@ class NavBar extends Component {
             <Link className="router-link" to="/customerpos">
               CustomerPOS
             </Link>
+            <Link className="router-link" to="/login">
+              Login
+            </Link>
           </ul>
           <div className="search-box">
             <div className="search-box-container">
