@@ -43,7 +43,10 @@ class NavBar extends Component {
               CustomerPOS
             </Link>
             <Link className="router-link" to="/login">
-              Login
+              Sign In
+            </Link>
+            <Link className="router-link" to="/register">
+              Sign Up
             </Link>
           </ul>
           <div className="search-box">
