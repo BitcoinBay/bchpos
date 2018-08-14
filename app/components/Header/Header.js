@@ -20,8 +20,8 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
           <Link className="router-link" to="/cashierpos">
             CashierPOS
           </Link>
-          <Link className="router-link" to="/bchpos">
-            BCHPOS
+          <Link className="router-link" to="/customerpos">
+            CustomerPOS
           </Link>
         </div>
       </div>
