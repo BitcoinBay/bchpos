@@ -70,6 +70,7 @@
     "sanitize.css": "4.1.0",
     "screenfull": "^3.3.2",
     "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1",
     "warning": "^4.0.1",
     "whatwg-fetch": "2.0.4"
   },
