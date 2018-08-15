@@ -4,7 +4,8 @@ import Display from "../../components/Display";
 import ButtonPanel from "../../components/ButtonPanel";
 import calculate from "../../components/logic/calculate";
 import './style.scss';
-
+const Bitboxcli = require('bitbox-cli');
+import qr from 'qrcode-react';
 import {getBIP21URL} from '../../services/paymentApi';
 
 import NumPad from "../../components/NumPad";
