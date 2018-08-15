@@ -2,13 +2,13 @@
 
 const app = require('express')();
 const mongoose = require('mongoose');
-const port = require('./util//port');
 const setup = require('./middlewares/frontendMiddleware');
 const {resolve} = require('path');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const port = require('./util//port');
 const argv = require('./util/argv');
 
 // If you need a backend, e.g. an API, add your custom backend-specific
