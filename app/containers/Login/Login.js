@@ -88,9 +88,9 @@ export default class Login extends Component {
         <div className="title">
           Login
         </div>
-        <FluidInput type="text" label="name" id="name" style={style} />
+        <FluidInput type="text" label="username" id="username" style={style} />
         <FluidInput type="password" label="password" id="password" style={style} />
-        <Button buttonText="log in" buttonClass="login-button" />
+        <Button type="sumbit" buttonText="log in" buttonClass="login-button" />
       </div>
     );
   }
