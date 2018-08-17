@@ -1,5 +1,3 @@
-import QRCode from 'qrcode-react';
-
 let BITBOXCli = require('bitbox-cli/lib/bitbox-cli').default;
 let BITBOX;
 
@@ -17,4 +15,10 @@ export function getBIP21URL(pubkey, payAmount, payLabel) {
   };
   let bip21url = BITBOX.BitcoinCash.encodeBIP21(pubkey, bip21options);
   return bip21url;
+}
+
+export function generateNewAddress(xpubkey) {
+  initBITBOX();
+  let newAddress = BITBOX.Address.fromXPub(xpubkey);
+  return newAddress;
 }

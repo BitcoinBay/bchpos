@@ -53,6 +53,7 @@
     "prop-types": "15.6.1",
     "qrcode-react": "^0.1.16",
     "react": "^16.4.0",
+    "react-bootstrap": "^0.32.1",
     "react-dom": "^16.4.0",
     "react-helmet": "5.2.0",
     "react-loadable": "^5.4.0",
