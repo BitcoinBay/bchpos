@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import './style.scss';
-
+import NumPad from '../../components/NumPad';
 import QRCode from 'qrcode-react';
 
 let BITBOXCli = require('bitbox-cli/lib/bitbox-cli').default;
@@ -127,6 +127,7 @@ export default class CashierPOS extends Component {
             </ul>
           </section>
         </div>
+        <NumPad/>
       </article>
     );
   }
