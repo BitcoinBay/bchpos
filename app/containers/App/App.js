@@ -17,6 +17,7 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import NavBar from '../../components/NavBar';
 import Login from '../Login/Loadable';
 import Register from '../Register/Loadable';
+import Ledger from '../Ledger/Loadable';
 import './style.scss';
 
 const App = () => (
@@ -31,6 +32,7 @@ const App = () => (
       <Route path="/cashierpos" component={CashierPOS} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
+      <Route path="/ledger" component={Ledger} />
       <Route path="" component={NotFoundPage} />
     </Switch>
   </div>
