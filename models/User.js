@@ -1,25 +1,10 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+let mongoose = require('mongoose');
 
-const { Schema } = mongoose;
-const userSchema = new Schema({ username: String, password: String });
+let Schema = mongoose.Schema;
+let passportLocalMongoose = require('passport-local-mongoose');
 
-userSchema.methods = {
-  checkPassword(inputPassword) {
-    return bcrypt.compareSync(inputPassword, this.local.password);
-  },
-  hashPassword: plainTextPassword => bcrypt.hashSync(plainTextPassword, 10),
-};
+let UserSchema = new Schema({ username: String, password: String });
 
-userSchema.pre('save', function (next) {
-  if (!this.password) {
-    console.log('=======NO PASSWORD PROVIDED=======');
-    next();
-  } else {
-    this.password = this.hashPassword(this.password);
-    next();
-  }
-});
-const User = mongoose.model('User', userSchema);
+UserSchema.plugin(passportLocalMongoose);
 
-module.exports = User;
+module.exports = mongoose.model('User', UserSchema);
