@@ -6,6 +6,7 @@ class NumPad extends Component {
   constructor(props) {
     super(props);
     this.state = {  amount: this.props.amount,
+                    currency: this.props.currency,
                     exchangeRate: this.props.exchangeRate,
                     title: this.props.title,
                     submitIcon: this.props.submitIcon,
@@ -21,7 +22,8 @@ class NumPad extends Component {
 
   componentWillReceiveProps(nextProps) {
   // check this.props vs nextProps and setState!
-    this.setState({ exchangeRate: nextProps.exchangeRate,
+    this.setState({ currency: nextProps.currency,
+                    exchangeRate: nextProps.exchangeRate,
                     amount: nextProps.amount,
                     bch: parseFloat((1 / nextProps.exchangeRate) * nextProps.amount).toFixed(8)
     })
@@ -77,6 +79,7 @@ class NumPad extends Component {
           <Row>
             <Col s={12}>
               <div className="buttons">
+                <Col s={4}><Button large  waves="light" className="blue ibtn" onClick={this.props.toggleCurrency.bind(this, this.state.amount)}>{this.state.currency === 'USD' ? localStorage.getItem('currency') : 'USD'}</Button></Col>
                 <Col s={4}><Button large  waves="light" className="red darken-1 ibtn" onClick={this.clearText.bind(this)}>C</Button></Col>
                 <Col s={4}><Button large  waves="light" className="yellow darken-3 ibtn" onClick={this.delText.bind(this)}>&#9003;</Button></Col>
                 <Col s={4}><Button large flat waves="light" className="teal ibtn" onClick={this.addText.bind(this, 1)}>1</Button></Col>
@@ -90,6 +93,7 @@ class NumPad extends Component {
                 <Col s={4}><Button large flat waves="light" className="teal ibtn" onClick={this.addText.bind(this, 9)}>9</Button></Col>
                 <Col s={4}><Button large flat waves="light" className="teal ibtn" onClick={this.addText.bind(this, ".")}>.</Button></Col>
                 <Col s={4}><Button large flat waves="light" className="teal ibtn" onClick={this.addText.bind(this, 0)}>0</Button></Col>
+                <Col s={4}><Button large  waves="light" className="green ibtn" ref="submit" onClick={this.props.handler.bind(this, this.state.amount)}><Icon>{this.state.submitIcon}</Icon></Button></Col>
               </div>
             </Col>
           </Row>

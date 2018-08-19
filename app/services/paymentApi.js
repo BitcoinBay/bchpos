@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 let BITBOXCli = require('bitbox-cli/lib/bitbox-cli').default;
 let BITBOX;
 
