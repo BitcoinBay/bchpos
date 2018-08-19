@@ -9,14 +9,7 @@ export default class Login extends Component {
       margin: '15px 0',
     };
     return (
-      <div className="login-container">
-        <div className="title">
-          Login
-        </div>
-        <FluidInput type="text" label="username" id="username" style={style} />
-        <FluidInput type="password" label="password" id="password" style={style} />
-        <Button type="sumbit" buttonText="log in" buttonClass="login-button" />
-      </div>
+      <div className="login-container" />
     );
   }
 }

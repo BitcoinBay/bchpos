@@ -16,7 +16,7 @@ const setup = require('./middlewares/frontendMiddleware');
 const port = require('./util//port');
 const argv = require('./util/argv');
 const configDB = require('../config/keys');
-require('../services/passport')(passport);
+// require('../services/passport')(passport);
 
 setup(app, {
   outputPath: resolve(process.cwd(), 'build'),
@@ -55,4 +55,3 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 // routes ======================================================================
-require('../app/containers/App/App')(app, passport); // load our routes and pass in our app and fully configured passport
