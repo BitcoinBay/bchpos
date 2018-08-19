@@ -8,14 +8,14 @@ const LocalStrategy = require('passport-local').Strategy;
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const flash = require('connect-flash');
 const setup = require('./middlewares/frontendMiddleware');
 const port = require('./util//port');
 const argv = require('./util/argv');
-const configDB = require('../config/keys');
+const dbConnection = require('./database');
+const MongoStore = require('connect-mongo')(session);
+const user = require('./routes/user');
 // require('../services/passport')(passport);
 
 setup(app, {
@@ -35,23 +35,25 @@ http.listen(port, host, (err) => {
   }
   logger.appStarted(port, prettyHost);
 });
-app.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true,
-}));
 
 io.on('connection', (socket) => {
   console.log('hello');
 });
+app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-mongoose.connect(configDB.mongoURI);
-app.use(morgan('dev')); // log every request to the console
-app.use(cookieParser()); // read cookies (needed for auth)
-app.use(bodyParser()); // get information from html forms
-app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+// Sessions
+app.use(session({
+  secret: 'fraggle-rock', // pick a random string to make the hash that is generated secure
+  store: new MongoStore({ mongooseConnection: dbConnection }),
+  resave: false, // required
+  saveUninitialized: false, // required
+}));
+
+// Passport
 app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
+app.use(passport.session()); // calls the deserializeUser
 
-// routes ======================================================================
+// Routes
+app.use('/user', user);
