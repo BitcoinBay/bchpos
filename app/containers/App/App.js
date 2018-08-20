@@ -1,6 +1,6 @@
 import React from 'react';
-import {Helmet} from 'react-helmet';
-import {Switch, Route} from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import CustomerPOS from 'containers/CustomerPOS/Loadable';
@@ -14,18 +14,16 @@ import './style.scss';
 
 const App = () => (
   <div className="app-wrapper">
-    <Helmet titleTemplate="%s BCHPOS">
-      <meta name="description" content="A React.js Boilerplate application"/>
-    </Helmet>
-    <NavBar/>
+    <Helmet titleTemplate="%s BCHPOS" />
+    <NavBar />
     <Switch>
-      <Route exact path="/" component={HomePage}/>
-      <Route path="/customerpos" component={CustomerPOS}/>
-      <Route path="/cashierpos" component={CashierPOS}/>
-      <Route path="/login" component={Login}/>
-      <Route path="/register" component={Register}/>
-      <Route path="/ledger" component={Ledger}/>
-      <Route path="" component={NotFoundPage}/>
+      <Route exact path="/" component={HomePage} />
+      <Route path="/customerpos" component={CustomerPOS} />
+      <Route path="/cashierpos" component={CashierPOS} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
+      <Route path="/ledger" component={Ledger} />
+      <Route path="" component={NotFoundPage} />
     </Switch>
   </div>
 );

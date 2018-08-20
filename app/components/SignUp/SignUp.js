@@ -1,17 +1,16 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
-import axios from 'axios';
+import {Helmet} from 'react-helmet';
 import './style.scss';
-import SignUp from '../../components/SignUp';
+import axios from 'axios';
 
-export default class Register extends Component { // eslint-disable-line react/prefer-stateless-function
+class SignUp extends Component { // eslint-disable-line react/prefer-stateless-function
   constructor() {
     super();
     this.state = {
       username: '',
       password: '',
-      confirmPassword: '',
+      confirmPassword: ''
     };
     this.handleSubmit = this
       .handleSubmit
@@ -23,7 +22,7 @@ export default class Register extends Component { // eslint-disable-line react/p
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     });
   }
 
@@ -35,15 +34,15 @@ export default class Register extends Component { // eslint-disable-line react/p
     // request to server to add a new username/password
     axios
       .post('/user/', {
-        username: this.state.username,
-        password: this.state.password,
-      })
+      username: this.state.username,
+      password: this.state.password
+    })
       .then((response) => {
         console.log(response);
         if (!response.data.errmsg) {
           console.log('successful signup');
           this.setState({ // redirect to login page
-            redirectTo: '/login',
+            redirectTo: '/login'
           });
         } else {
           console.log('username already taken');
@@ -72,8 +71,7 @@ export default class Register extends Component { // eslint-disable-line react/p
                 name="username"
                 placeholder="Username"
                 value={this.state.username}
-                onChange={this.handleChange} 
-              />
+                onChange={this.handleChange}/>
             </div>
           </div>
           <div className="form-group">
@@ -89,17 +87,15 @@ export default class Register extends Component { // eslint-disable-line react/p
                 type="password"
                 name="password"
                 value={this.state.password}
-                onChange={this.handleChange} 
-              />
+                onChange={this.handleChange}/>
             </div>
           </div>
           <div className="form-group ">
-            <div className="col-7" />
+            <div className="col-7"/>
             <button
               className="btn btn-primary col-1 col-mr-auto"
               onClick={this.handleSubmit}
-              type="submit"
-            >
+              type="submit">
               Sign up
 
             </button>
@@ -110,3 +106,4 @@ export default class Register extends Component { // eslint-disable-line react/p
     );
   }
 }
+export default SignUp;
