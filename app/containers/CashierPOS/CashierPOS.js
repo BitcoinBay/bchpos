@@ -4,6 +4,7 @@ import {Helmet} from 'react-helmet';
 import './style.scss';
 import QRCode from 'qrcode-react';
 import NumPad from 'react-numpad';
+import socketClient from 'socket.io-client';
 
 let BITBOXCli = require('bitbox-cli/lib/bitbox-cli').default;
 let BITBOX = new BITBOXCli();
@@ -67,32 +68,27 @@ export default class CashierPOS extends Component {
     super(props);
     this.state = {
       mnemonic: mnemonic,
-      lang: lang
+      lang: lang,
+      endpoint: "127.0.0.1:3000"
     }
   }
+  send = () => {
+    const socket = socketIOClient(this.state.endpoint)
 
+    socket.emit()
+  }
   shouldComponentUpdate() {
     return false;
   }
 
   render() {
-    let addresses = [];
-
-    for (let i = 0; i < 10; i++) {
-      let account = masterHDNode.derivePath(`m/44'/145'/0'/0/${i}`);
-      addresses.push(
-        <li key={i}>m/44&rsquo;/145&rsquo;/0&rsquo;/0/{i}: {BITBOX
-            .HDNode
-            .toCashAddress(account)}</li>
-      );
-    }
-
-    let addressList = [];
-
-    for (let i = 0; i < 10; i++) {
-      let account = masterHDNode.derivePath(`m/44'/145'/0'/0/${i}`);
-      addressList.push(BITBOX.HDNode.toCashAddress(account));
-    }
+    // let addresses = []; for (let i = 0; i < 10; i++) {   let account =
+    // masterHDNode.derivePath(`m/44'/145'/0'/0/${i}`);   addresses.push(     <li
+    // key={i}>m/44&rsquo;/145&rsquo;/0&rsquo;/0/{i}: {BITBOX         .HDNode
+    // .toCashAddress(account)}</li>   ); } let addressList = []; for (let i = 0; i
+    // < 10; i++) {   let account =
+    // masterHDNode.derivePath(`m/44'/145'/0'/0/${i}`);
+    // addressList.push(BITBOX.HDNode.toCashAddress(account)); }
 
     return (
       <article>
@@ -100,7 +96,7 @@ export default class CashierPOS extends Component {
           <title>Cashier POS Page</title>
           <meta name="description" content="CashierPOS Page"/>
         </Helmet>
-        <div>
+        {/* <div>
           <section className='App-content'>
             <h2>BIP44 $BCH Wallet</h2>
             <h3>256 bit {lang}
@@ -126,14 +122,17 @@ export default class CashierPOS extends Component {
               {addresses}
             </ul>
           </section>
+        </div> */}
+        <div className="pad">
+          <NumPad.Number
+            onChange={(value) => {
+            console.log('value', value)
+          }}
+            label={'Total'}
+            placeholder={'my placeholder'}
+            value={100}/>
+          <button type="button" className="btn btn-default">Pay with BCH</button>
         </div>
-        <NumPad.Number
-          onChange={(value) => {
-          console.log('value', value)
-        }}
-          label={'Total'}
-          placeholder={'my placeholder'}
-          value={100}/>
       </article>
     );
   }
