@@ -42,9 +42,10 @@ export default class CashierPOS extends React.Component {
       });
   }
 
+  //hard coded xpub index "5", payment amount "0.5 BCH", and label text "Sample Text"
   handleClick = () => {
     this.setState({ isLoading: true });
-    let paymentAddress = generateNewAddress(xpub);
+    let paymentAddress = generateNewAddress(xpub, 5);
     let paymentURL = getBIP21URL(paymentAddress, 0.5, "Sample Text");
     this.setState({ url: paymentURL });
   }

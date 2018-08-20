@@ -19,32 +19,10 @@ export function getBIP21URL(pubkey, payAmount, payLabel) {
   return bip21url;
 }
 
-export function generateNewAddress(xpubkey) {
+// hard coded xpub index to "5"
+export function generateNewAddress(xpubkey, index) {
   initBITBOX();
-  let newAddress;
-  let pendingAddress = true;
-
-  while (pendingAddress) {
-    let i = 0;
-    newAddress = BITBOX.Address.fromXPub(xpubkey, `0/${i}`);
-    axios.get(`https://rest.bitcoin.com/v1/address/details/${newAddress}`)
-      .then(res => {
-        const data = res.data.totalReceivedSat;
-        console.log(data);
-        pendingAddress = (data == 0) ? false : true;
-        /*
-        if (data == 0) {
-          console.log(data);
-          pendingAddress = true;
-        }
-        else {
-          console.log(newAddress);
-          i++;
-        }
-        */
-      })
-    i++;
-  }
-
+  let newAddress = BITBOX.Address.fromXPub(xpubkey, `0/${index}`);
+  console.log(newAddress);
   return newAddress;
 }
