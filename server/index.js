@@ -37,7 +37,7 @@ http.listen(port, host, (err) => {
 });
 
 io.on('connection', (socket) => {
-  console.log('hello');
+  console.log('Socket Conncted');
 });
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));

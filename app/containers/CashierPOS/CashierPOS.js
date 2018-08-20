@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import './style.scss';
-import NumPad from '../../components/NumPad';
 import QRCode from 'qrcode-react';
+import NumPad from 'react-numpad';
 
 let BITBOXCli = require('bitbox-cli/lib/bitbox-cli').default;
 let BITBOX = new BITBOXCli();
@@ -127,7 +127,13 @@ export default class CashierPOS extends Component {
             </ul>
           </section>
         </div>
-        <NumPad/>
+        <NumPad.Number
+          onChange={(value) => {
+          console.log('value', value)
+        }}
+          label={'Total'}
+          placeholder={'my placeholder'}
+          value={100}/>
       </article>
     );
   }

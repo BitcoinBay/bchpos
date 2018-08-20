@@ -7,9 +7,9 @@ import IMG from '../../images/bitcoin-bay.jpg';
 export default class CustomerPOS extends Component {
   render() {
     return (
-      <div className="payment">
+      <article>
         <img src={IMG} height="400" width="400" />
-      </div>
+      </article>
     );
   }
 }
