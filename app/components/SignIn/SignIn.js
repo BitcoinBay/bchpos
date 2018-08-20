@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Helmet} from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import './style.scss';
 import axios from 'axios';
 
@@ -10,7 +10,7 @@ class SignIn extends Component {
     this.state = {
       username: '',
       password: '',
-      redirectTo: null
+      confirmPassword: '',
     };
     this.handleSubmit = this
       .handleSubmit
@@ -22,7 +22,7 @@ class SignIn extends Component {
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   }
 
@@ -32,9 +32,9 @@ class SignIn extends Component {
 
     axios
       .post('/user/login', {
-      username: this.state.username,
-      password: this.state.password
-    })
+        username: this.state.username,
+        password: this.state.password,
+      })
       .then((response) => {
         console.log('login response: ');
         console.log(response);
@@ -42,9 +42,9 @@ class SignIn extends Component {
           // update App.js state
           this
             .props
-            .updateUser({loggedIn: true, username: response.data.username});
+            .updateUser({ loggedIn: true, username: response.data.username });
           // update the state to redirect to home
-          this.setState({redirectTo: '/'});
+          this.setState({ redirectTo: '/' });
         }
       })
       .catch((error) => {
@@ -55,9 +55,11 @@ class SignIn extends Component {
 
   render() {
     if (this.state.redirectTo) {
-      return (<Redirect to={{
+      return (
+<Redirect to={{
         pathname: this.state.redirectTo
-      }}/>);
+      }}/>
+);
     }
     return (
       <div>
@@ -75,7 +77,8 @@ class SignIn extends Component {
                 name="username"
                 placeholder="Username"
                 value={this.state.username}
-                onChange={this.handleChange}/>
+                onChange={this.handleChange} 
+              />
             </div>
           </div>
           <div className="form-group">
@@ -91,15 +94,17 @@ class SignIn extends Component {
                 type="password"
                 name="password"
                 value={this.state.password}
-                onChange={this.handleChange}/>
+                onChange={this.handleChange} 
+              />
             </div>
           </div>
           <div className="form-group ">
-            <div className="col-7"/>
+            <div className="col-7" />
             <button
               className="btn btn-primary col-1 col-mr-auto"
               onClick={this.handleSubmit}
-              type="submit">
+              type="submit"
+            >
               Login
 
             </button>
