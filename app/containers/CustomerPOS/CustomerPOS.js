@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
+import socketClient from 'socket.io-client';
 import './style.scss';
 import IMG from '../../images/bitcoin-bay.jpg';
 

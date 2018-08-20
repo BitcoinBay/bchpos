@@ -37,8 +37,17 @@ http.listen(port, host, (err) => {
 });
 
 io.on('connection', (socket) => {
+  socket
+    .on('event', (msg) => {
+      io.emit('event', msg);
+    });
   console.log('Socket Conncted');
 });
+
+io.on('disconnect', () => {
+  console.log('user disconnected');
+});
+
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
