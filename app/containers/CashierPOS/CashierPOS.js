@@ -4,7 +4,8 @@ import {Helmet} from 'react-helmet';
 import './style.scss';
 import QRCode from 'qrcode-react';
 import NumPad from 'react-numpad';
-import socketClient from 'socket.io-client';
+import openSocket from 'socket.io-client';
+const socket = openSocket('http://localhost:3000');
 let BITBOXCli = require('bitbox-cli/lib/bitbox-cli').default;
 let BITBOX = new BITBOXCli();
 
@@ -67,18 +68,24 @@ export default class CashierPOS extends Component {
     super(props);
     this.state = {
       mnemonic: mnemonic,
-      lang: lang
+      lang: lang,
+      amount: ''
     }
+    this.sendSocketIO = this
+      .sendSocketIO
+      .bind(this);
   }
-  shouldComponentUpdate() {
-    return false;
+  // shouldComponentUpdate() {   return false; }
+  sendSocketIO(msg) {
+    socket.emit('event', msg);
   }
   render() {
     // let addresses = []; for (let i = 0; i < 10; i++) {   let account =
     // masterHDNode.derivePath(`m/44'/145'/0'/0/${i}`);   addresses.push(     <li
     // key={i}>m/44&rsquo;/145&rsquo;/0&rsquo;/0/{i}: {BITBOX         .HDNode
     // .toCashAddress(account)}</li>   ); } let addressList = []; for (let i = 0; i
-    // < 10; i++) {   let account = masterHDNode.derivePath(`m/44'/145'/0'/0/${i}`);
+    // < 10; i++) {   let account =
+    // masterHDNode.derivePath(`m/44'/145'/0'/0/${i}`);
     // addressList.push(BITBOX.HDNode.toCashAddress(account)); }
 
     return (
@@ -117,17 +124,18 @@ export default class CashierPOS extends Component {
         <div className="pad">
           <NumPad.Number
             onChange={(value) => {
-            console.log('value', value)
+            this.setState({
+              amount: value
+            }, () => console.log(this.state.amount));
           }}
             label={'Total'}
             placeholder={'my placeholder'}
+            position={'startBottomLeft'}
             value={100}/>
           <button
             type="button"
             className="btn btn-default pay"
-            onClick={function (event) {
-            socketClient.emit(numpad.value);
-          }}>Pay with BCH</button>
+            onClick={this.sendSocketIO(this.state.amount)}>Pay with BCH</button>
         </div>
       </article>
     );

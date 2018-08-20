@@ -37,11 +37,9 @@ http.listen(port, host, (err) => {
 });
 
 io.on('connection', (socket) => {
-  socket
-    .on('event', (msg) => {
-      io.emit('event', msg);
-    });
-  console.log('Socket Conncted');
+  socket.on('event', (msg) => {
+    console.log(msg);
+  });
 });
 
 io.on('disconnect', () => {
