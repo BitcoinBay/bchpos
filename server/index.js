@@ -37,13 +37,13 @@ http.listen(port, host, (err) => {
 });
 
 io.on('connection', (socket) => {
+  console.log('user connected');
   socket.on('event', (msg) => {
     console.log(msg);
   });
-});
-
-io.on('disconnect', () => {
-  console.log('user disconnected');
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
 });
 
 app.use(morgan('dev'));

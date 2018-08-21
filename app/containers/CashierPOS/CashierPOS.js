@@ -84,8 +84,7 @@ export default class CashierPOS extends Component {
     // masterHDNode.derivePath(`m/44'/145'/0'/0/${i}`);   addresses.push(     <li
     // key={i}>m/44&rsquo;/145&rsquo;/0&rsquo;/0/{i}: {BITBOX         .HDNode
     // .toCashAddress(account)}</li>   ); } let addressList = []; for (let i = 0; i
-    // < 10; i++) {   let account =
-    // masterHDNode.derivePath(`m/44'/145'/0'/0/${i}`);
+    // < 10; i++) {   let account = masterHDNode.derivePath(`m/44'/145'/0'/0/${i}`);
     // addressList.push(BITBOX.HDNode.toCashAddress(account)); }
 
     return (
@@ -135,7 +134,7 @@ export default class CashierPOS extends Component {
           <button
             type="button"
             className="btn btn-default pay"
-            onClick={this.sendSocketIO(this.state.amount)}>Pay with BCH</button>
+            onClick={() => this.sendSocketIO(this.state.amount)}>Pay with BCH</button>
         </div>
       </article>
     );
