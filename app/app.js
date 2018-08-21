@@ -22,7 +22,7 @@ import App from 'containers/App';
 
 // Load the favicon
 /* eslint-disable import/no-webpack-loader-syntax */
-import '!file-loader?name=[name].[ext]!./images/favicon.ico';
+import '!file-loader?name=[name].[ext]!./images/bitcoin-bay.ico';
 /* eslint-enable import/no-webpack-loader-syntax */
 
 // Import CSS reset and Global Styles
@@ -35,11 +35,19 @@ import configureStore from './configureStore';
 const openSansObserver = new FontFaceObserver('Open Sans', {});
 
 // When Open Sans is loaded, add a font-family using Open Sans to the body
-openSansObserver.load().then(() => {
-  document.body.classList.add('fontLoaded');
-}, () => {
-  document.body.classList.remove('fontLoaded');
-});
+openSansObserver
+  .load()
+  .then(() => {
+    document
+      .body
+      .classList
+      .add('fontLoaded');
+  }, () => {
+    document
+      .body
+      .classList
+      .remove('fontLoaded');
+  });
 
 // Create redux store with history
 const initialState = {};
@@ -52,22 +60,22 @@ const render = () => {
     <Provider store={store}>
       {/* <LanguageProvider messages={messages}> */}
       <ConnectedRouter history={history}>
-        <App />
-      </ConnectedRouter>
+      <App />
+    </ConnectedRouter>
       {/* </LanguageProvider> */}
-    </Provider>,
-    MOUNT_NODE
-  );
+    </Provider>, MOUNT_NODE
+);
 };
 
 if (module.hot) {
-  // Hot reloadable React components and translation json files
-  // modules.hot.accept does not accept dynamic dependencies,
-  // have to be constants at compile-time
-  module.hot.accept(['containers/App'], () => {
-    ReactDOM.unmountComponentAtNode(MOUNT_NODE);
-    render();
-  });
+  // Hot reloadable React components and translation json files modules.hot.accept
+  // does not accept dynamic dependencies, have to be constants at compile-time
+  module
+    .hot
+    .accept(['containers/App'], () => {
+      ReactDOM.unmountComponentAtNode(MOUNT_NODE);
+      render();
+    });
 }
 
 render();

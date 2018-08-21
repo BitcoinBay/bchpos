@@ -7,7 +7,7 @@ const webpack = require('webpack');
 
 process.noDeprecation = true;
 
-module.exports = (options) => ({
+module.exports = options => ({
   mode: options.mode,
   entry: options.entry,
   output: Object.assign({ // Compile into js/build.js
@@ -23,105 +23,100 @@ module.exports = (options) => ({
           loader: 'babel-loader',
           options: options.babelQuery,
         },
-      },
-      {
+      }, {
         // Preprocess our own .scss files
         test: /\.scss$/,
         exclude: /node_modules/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
-      },
-      {
+      }, {
         // Preprocess 3rd party .css files located in node_modules
         test: /\.css$/,
         include: /node_modules/,
         use: ['style-loader', 'css-loader'],
-      },
-      {
+      }, {
         test: /\.(eot|svg|otf|ttf|woff|woff2)$/,
         use: 'file-loader',
-      },
-      {
+      }, {
         test: /\.(jpg|png|gif)$/,
         use: [
-          'file-loader',
-          {
+          'file-loader', {
             loader: 'image-webpack-loader',
             options: {
               query: {
                 gifsicle: {
-                  interlaced: true
+                  interlaced: true,
                 },
                 mozjpeg: {
-                  progressive: true
+                  progressive: true,
                 },
                 optipng: {
-                  optimizationLevel: 7
+                  optimizationLevel: 7,
                 },
                 pngquant: {
                   quality: '65-90',
-                  speed: 4
-                }
-              }
+                  speed: 4,
+                },
+              },
             },
           },
         ],
-      },
-      {
+      }, {
         test: /\.html$/,
-        use: 'html-loader'
-      },
-      {
-	type: 'javascript/auto',
+        use: 'html-loader',
+      }, {
+        type: 'javascript/auto',
         test: /\.json$/,
-	exclude: /(node_modules|bower_components)/,
-        use: [{
-      	  loader: 'file-loader',
-          options: { name: '[name].[ext]' },
-        }],
-      },
-      {
+        exclude: /(node_modules|bower_components)/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+            },
+          },
+        ],
+      }, {
         test: /\.(mp4|webm)$/,
         use: {
           loader: 'url-loader',
           options: {
-            limit: 10000
+            limit: 10000,
           },
         },
       },
     ],
   },
-  plugins: options.plugins.concat([
-    new webpack.ProvidePlugin({
-      // make fetch available
-      fetch: 'exports-loader?self.fetch!whatwg-fetch'
-    }),
+  plugins: options
+    .plugins
+    .concat([
+      new webpack.ProvidePlugin({
+        // make fetch available
+        fetch: 'exports-loader?self.fetch!whatwg-fetch',
+      }),
 
-    // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
-    // inside your code for any environment checks; UglifyJS will automatically
-    // drop any unreachable code.
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-      },
-    })
-  ]),
+      // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
+      // inside your code for any environment checks; UglifyJS will automatically drop
+      // any unreachable code.
+      new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        },
+      }),
+    ]),
   resolve: {
-    modules: ['app', 'node_modules'],
+    modules: [
+      'app', 'node_modules',
+    ],
     extensions: [
-      '.js',
-      '.jsx',
-      '.scss',
-      '.react.js'
+      '.js', '.jsx', '.scss', '.react.js',
     ],
     mainFields: [
-      'browser',
-      'jsnext:main',
-      'main'
+      'browser', 'jsnext:main', 'main',
     ],
     alias: {
-    // use React component for example
-    'numeric-keyboard$': 'numeric-keyboard/dist/numeric_keyboard.react.js'
-  }
+      // use React component for example
+      'numeric-keyboard$': 'numeric-keyboard/dist/numeric_keyboard.react.js',
+    },
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
@@ -130,7 +125,7 @@ module.exports = (options) => ({
     namedModules: true,
     splitChunks: {
       name: 'vendor',
-      minChunks: 2
-    }
-  }
+      minChunks: 2,
+    },
+  },
 });
