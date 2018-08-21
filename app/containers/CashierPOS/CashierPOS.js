@@ -23,22 +23,16 @@ export default class CashierPOS extends React.Component {
     this.state = {
       cryptoPrice: [],
       isLoading: false,
-      url: xpub
+      url: ""
     }
-    /*
-    this.state = {
-      total: null,
-      next: null,
-      operation: null,
-    };
-    */
   }
 
   componentDidMount() {
     axios.get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BCH,BTC,ETC,ETH,LTC&tsyms=AUD,CAD,EUR,GBP,USD')
       .then(res => {
-        const cryptos = res.data;
-        this.setState({cryptoPrice: cryptos});
+        const cryptos = res.data.BCH;
+        this.setState({ cryptoPrice: cryptos });
+        console.log(this.state.cryptoPrice);
       });
   }
 
@@ -47,11 +41,11 @@ export default class CashierPOS extends React.Component {
     this.setState({ isLoading: true });
     let paymentAddress = generateNewAddress(xpub, 5);
     let paymentURL = getBIP21URL(paymentAddress, 0.5, "Sample Text");
-    this.setState({ url: paymentURL });
+    this.setState({ isLoading: false, url: paymentURL });
   }
 
   render() {
-    const { isLoading, url } = this.state;
+    const { cryptoPrice, isLoading, url } = this.state;
     return (
       <div className="Cashier-page">
         <Helmet>
@@ -61,16 +55,13 @@ export default class CashierPOS extends React.Component {
         <h1>CashierPOS</h1>
         <div className="component-app">
           <QRCode value={url} />
+          {url}
           <Button
             disabled={isLoading}
             onClick={!isLoading ? this.handleClick : null}
           >
             {isLoading ? 'Loading...' : 'Loading state'}
           </Button>
-          {/*
-            <Display value={this.state.next || this.state.total || "0"} />
-            <ButtonPanel clickHandler={this.handleClick} />
-          */}
         </div>
       </div>
     );

@@ -23,6 +23,6 @@ export function getBIP21URL(pubkey, payAmount, payLabel) {
 export function generateNewAddress(xpubkey, index) {
   initBITBOX();
   let newAddress = BITBOX.Address.fromXPub(xpubkey, `0/${index}`);
-  console.log(newAddress);
+//  console.log(newAddress);
   return newAddress;
 }
