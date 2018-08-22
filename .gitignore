@@ -12,3 +12,6 @@ npm-debug.log
 # Logs
 yarn-error.log
 dev.js
+
+# Locks
+package-lock.json
