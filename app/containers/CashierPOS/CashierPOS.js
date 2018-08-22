@@ -30,7 +30,8 @@ export default class CashierPOS extends Component {
       cryptoPrice: [],
       isLoading: false,
       url: xpub,
-      amount: ''
+      amount: '',
+      currency: 'CAD'
 
     }
     this.sendSocketIO = this
@@ -68,7 +69,9 @@ export default class CashierPOS extends Component {
         </Helmet>
         <h1>CashierPOS</h1>
         <div className="component-app">
-          <QRCode value={this.state.url}/> {/*
+          <QRCode value={this.state.url}/>
+          <h1>Select your currency</h1>
+          {/*
             <Display value={this.state.next || this.state.total || "0"} />
             <ButtonPanel clickHandler={this.handleClick} />
           */}
