@@ -17,7 +17,7 @@ export default class CustomerPOS extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      test: '',
+      test: ''
     };
   }
 

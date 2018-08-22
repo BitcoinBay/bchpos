@@ -26,39 +26,52 @@ export default class CashierPOS extends Component {
     this.handleClick = this
       .handleClick
       .bind(this);
+    this.updatePrices = this
+      .updatePrices
+      .bind(this);
     this.state = {
       cryptoPrice: [],
       isLoading: false,
       url: xpub,
       amount: '',
-      currency: 'CAD'
-
+      fiat: 'CAD',
     }
     this.sendSocketIO = this
       .sendSocketIO
       .bind(this);
   }
+
   sendSocketIO(msg) {
-    socket.emit('event', (1 / this.state.cryptoPrice) * this.state.amount);
+    socket.emit('event', msg);
+  }
+
+  updatePrices() {
+    axios
+     .get(`https://min-api.cryptocompare.com/data/pricemulti?fsyms=BCH,BTC,ETC,ETH,LTC&tsyms=${this.state.fiat}`)
+     .then(res => {
+       const cryptos = res.data.BCH;
+       this.setState({ cryptoPrice: cryptos });
+       console.log(this.state.cryptoPrice);
+     });
   }
 
   componentDidMount() {
-    axios
-      .get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BCH,BTC,ETC,ETH,LTC&tsym' +
-        's=AUD,{this.state.currency},EUR,GBP,USD')
-      .then(res => {
-        const cryptos = res.data.BCH;
-        this.setState({ cryptoPrice: cryptos });
-        console.log(this.state.cryptoPrice);
-      });
+    let updateTimer = setInterval(this.updatePrices(), 5000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.updateTimer);
   }
   // hard coded xpub index "5", payment amount "0.5 BCH", and label text "Sample
   // Text"
-  handleClick = () => {
+  handleClick = (payAmount) => {
     this.setState({isLoading: true});
     let paymentAddress = generateNewAddress(xpub, 5);
-    let paymentURL = getBIP21URL(paymentAddress, 0.5, "Sample Text");
-    this.setState({url: paymentURL});
+    let paymentURL = getBIP21URL(paymentAddress, payAmount, "Sample Text");
+    this.setState({
+      url: paymentURL,
+      amount: payAmount
+    }, () => console.log(this.state));
   }
 
   render() {
@@ -79,9 +92,7 @@ export default class CashierPOS extends Component {
           <div className="pad">
             <NumPad.Number
               onChange={(value) => {
-              this.setState({
-                amount: value
-              }, () => console.log(this.state.amount));
+              this.handleClick(value)
             }}
               label={'Total'}
               placeholder={'my placeholder'}
