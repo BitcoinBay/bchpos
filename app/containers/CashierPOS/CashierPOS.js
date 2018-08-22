@@ -45,7 +45,7 @@ export default class CashierPOS extends Component {
   componentDidMount() {
     axios
       .get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BCH,BTC,ETC,ETH,LTC&tsym' +
-        's=AUD,CAD,EUR,GBP,USD')
+        's=AUD,{this.state.currency},EUR,GBP,USD')
       .then(res => {
         const cryptos = res.data;
         this.setState({cryptoPrice: cryptos});
