@@ -38,7 +38,7 @@ export default class CashierPOS extends Component {
       .bind(this);
   }
   sendSocketIO(msg) {
-    socket.emit('event', msg);
+    socket.emit('event', (1 / this.state.cryptoPrice) * this.state.amount);
   }
 
   componentDidMount() {
@@ -50,7 +50,6 @@ export default class CashierPOS extends Component {
         this.setState({cryptoPrice: cryptos});
       });
   }
-
   // hard coded xpub index "5", payment amount "0.5 BCH", and label text "Sample
   // Text"
   handleClick = () => {
