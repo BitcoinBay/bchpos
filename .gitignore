@@ -15,4 +15,7 @@ dev.js
 
 # Locks
 package-lock.json
+<<<<<<< HEAD
 yarn.lock
+=======
+>>>>>>> raveen-dev
