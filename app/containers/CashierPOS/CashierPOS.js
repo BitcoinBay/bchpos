@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
-import {Helmet} from 'react-helmet';
 import {Button} from 'react-bootstrap';
 import axios from 'axios';
 
@@ -16,16 +15,12 @@ const socket = openSocket('http://localhost:3000');
 let BITBOXCli = require('bitbox-cli/lib/bitbox-cli').default;
 let BITBOX = new BITBOXCli();
 
-import QRCode from 'qrcode-react';
-
 import {getBIP21URL, generateNewAddress} from '../../services/paymentApi';
-
-let lang = langs[Math.floor(Math.random() * langs.length)];
 
 let xpub = "xpub6C6EThH99dAScJJP16oobAKyaVmviS9uNZR4n1dRZxz4icFuaYvLHRt8aKpaMQYsWNH17JxpcwS4" +
     "EGcTv47UrH821UoY2utXaATFswDdiZK";
 
-export default class CashierPOS extends React.Component {
+export default class CashierPOS extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this
@@ -66,7 +61,6 @@ export default class CashierPOS extends React.Component {
   }
 
   render() {
-    const {isLoading, url} = this.state;
     return (
       <article>
         <Helmet>
@@ -75,17 +69,7 @@ export default class CashierPOS extends React.Component {
         </Helmet>
         <h1>CashierPOS</h1>
         <div className="component-app">
-          <QRCode value={url}/>
-          <Button
-            disabled={isLoading}
-            onClick={!isLoading
-            ? this.handleClick
-            : null}>
-            {isLoading
-              ? 'Loading...'
-              : 'Loading state'}
-          </Button>
-          {/*
+          <QRCode value={this.state.url}/> {/*
             <Display value={this.state.next || this.state.total || "0"} />
             <ButtonPanel clickHandler={this.handleClick} />
           */}
