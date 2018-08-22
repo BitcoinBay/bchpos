@@ -9,6 +9,7 @@ async function initBITBOX() {
   }
 }
 
+// payAmount is denominated in 1 BTC (BCH) base value
 export function getBIP21URL(pubkey, payAmount, payLabel) {
   initBITBOX();
   let bip21options = {
