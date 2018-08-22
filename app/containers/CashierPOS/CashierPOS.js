@@ -33,8 +33,9 @@ export default class CashierPOS extends Component {
       cryptoPrice: [],
       isLoading: false,
       url: xpub,
-      amount: '',
-      fiat: 'CAD',
+      amountF: 0,
+      amountC: 0,
+      fiat: 'CAD'
     }
     this.sendSocketIO = this
       .sendSocketIO
@@ -44,34 +45,37 @@ export default class CashierPOS extends Component {
   sendSocketIO(msg) {
     socket.emit('event', msg);
   }
-
+  convertPrice(fiat) {
+    return ((1 / (this.state.cryptoPrice.CAD)) * fiat);
+  }
   updatePrices() {
     axios
-     .get(`https://min-api.cryptocompare.com/data/pricemulti?fsyms=BCH,BTC,ETC,ETH,LTC&tsyms=${this.state.fiat}`)
-     .then(res => {
-       const cryptos = res.data.BCH;
-       this.setState({ cryptoPrice: cryptos });
-       console.log(this.state.cryptoPrice);
-     });
+      .get(`https://min-api.cryptocompare.com/data/pricemulti?fsyms=BCH,BTC,ETC,ETH,LTC&tsyms=${this.state.fiat}`)
+      .then(res => {
+        const crypto = res.data.BCH;
+        this.setState({
+          cryptoPrice: crypto
+        }, () => console.log(this.state));
+      })
+      .then(res => {
+        this.setState({
+          amountC: this.convertPrice(parseFloat(this.state.amountF))
+        })
+      });
   }
 
-  componentDidMount() {
-    let updateTimer = setInterval(this.updatePrices(), 5000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.updateTimer);
-  }
-  // hard coded xpub index "5", payment amount "0.5 BCH", and label text "Sample
-  // Text"
+  // componentDidMount() {   let updateTimer = setInterval(this.updatePrices(),
+  // 5000); } componentWillUnmount() {   clearInterval(this.updateTimer); } hard
+  // coded xpub index "5", payment amount "0.5 BCH", and label text "Sample Text"
   handleClick = (payAmount) => {
     this.setState({isLoading: true});
     let paymentAddress = generateNewAddress(xpub, 5);
     let paymentURL = getBIP21URL(paymentAddress, payAmount, "Sample Text");
     this.setState({
       url: paymentURL,
-      amount: payAmount
+      amountF: parseInt(payAmount)
     }, () => console.log(this.state));
+    this.updatePrices();
   }
 
   render() {
@@ -101,7 +105,7 @@ export default class CashierPOS extends Component {
             <button
               type="button"
               className="btn btn-default pay"
-              onClick={() => this.sendSocketIO(this.state.amount)}>Pay with BCH</button>
+              onClick={() => this.sendSocketIO(this.state.amountC)}>Pay with BCH</button>
           </div>
         </div>
       </article>
