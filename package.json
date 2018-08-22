@@ -72,6 +72,7 @@
     "react-bootstrap": "^0.32.3",
     "react-dom": "^16.4.0",
     "react-helmet": "5.2.0",
+    "react-interval": "^2.0.2",
     "react-loadable": "^5.4.0",
     "react-materialize": "^2.4.3",
     "react-numpad": "^3.0.6",
