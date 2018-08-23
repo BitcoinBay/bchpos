@@ -20,7 +20,16 @@ export function getBIP21URL(pubkey, payAmount, payLabel) {
   return bip21url;
 }
 
-// hard coded xpub index to "5"
+/*
+m / purpose' / coin_type' / account' / change / address_index
+
+1. derive the first account's node (index = 0)
+2. derive the external chain node of this account
+3. scan addresses of the external chain; respect the gap limit described below
+4. if no transactions are found on the external chain, stop discovery
+5. if there are some transactions, increase the account index and go to step 1
+*/
+
 export function generateNewAddress(xpubkey, index) {
   initBITBOX();
   let newAddress = BITBOX.Address.fromXPub(xpubkey, `0/${index}`);
