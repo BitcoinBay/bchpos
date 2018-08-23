@@ -1,7 +1,7 @@
 /* eslint consistent-return:0 */
 
 const app = require('express')();
-const { resolve } = require('path');
+const {resolve} = require('path');
 const passport = require('passport');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
@@ -14,11 +14,10 @@ const argv = require('./util/argv');
 const dbConnection = require('./database');
 const MongoStore = require('connect-mongo')(session);
 const user = require('./routes/user');
-// require('../services/passport')(passport);
 
 setup(app, {
   outputPath: resolve(process.cwd(), 'build'),
-  publicPath: '/',
+  publicPath: '/'
 });
 
 const customHost = argv.host || process.env.HOST;
@@ -46,13 +45,13 @@ io.on('connection', (socket) => {
 });
 
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 // Sessions
 app.use(session({
   secret: 'fraggle-rock', // pick a random string to make the hash that is generated secure
-  store: new MongoStore({ mongooseConnection: dbConnection }),
+  store: new MongoStore({mongooseConnection: dbConnection}),
   resave: false, // required
   saveUninitialized: false, // required
 }));

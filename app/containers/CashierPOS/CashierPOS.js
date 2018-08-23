@@ -3,20 +3,23 @@ import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import {Button} from 'react-bootstrap';
 import axios from 'axios';
-
-import Display from "../../components/Display";
-import ButtonPanel from "../../components/ButtonPanel";
-import calculate from "../../components/logic/calculate";
+import CCC from './ccc-streamer-utilities';
 import './style.scss';
 import QRCode from 'qrcode-react';
 import NumPad from 'react-numpad';
 import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:3000');
-const streamUrl = "https://streamer.cryptocompare.com/";
-const socket1 = openSocket(streamUrl);
 let BITBOXCli = require('bitbox-cli/lib/bitbox-cli').default;
 let BITBOX = new BITBOXCli();
+const streamUrl = "https://streamer.cryptocompare.com/";
+const socket1 = openSocket(streamUrl);
+let prices = {};
+const subscription = ['5~CCCAGG~BCH~CAD'];
+socket1.emit('SubAdd', {subs: subscription});
 
+socket1.on('m', (message) => {
+  console.log(message);
+});
 import {getBIP21URL, generateNewAddress} from '../../services/paymentApi';
 
 let xpub = "xpub6C6EThH99dAScJJP16oobAKyaVmviS9uNZR4n1dRZxz4icFuaYvLHRt8aKpaMQYsWNH17JxpcwS4" +
@@ -48,7 +51,7 @@ export default class CashierPOS extends Component {
     socket.emit('event', msg);
   }
   convertPrice(fiat) {
-    return ((1 / (this.state.cryptoPrice.CAD)) * fiat);
+    return parseFloat(((parseFloat(1 / (this.state.cryptoPrice.CAD))) * fiat));
   }
   updatePrices() {
     axios
@@ -61,7 +64,7 @@ export default class CashierPOS extends Component {
       })
       .then(res => {
         this.setState({
-          amountC: this.convertPrice(parseFloat(this.state.amountF))
+          amountC: this.convertPrice(this.state.amountF)
         })
       });
   }
@@ -75,7 +78,7 @@ export default class CashierPOS extends Component {
     let paymentURL = getBIP21URL(paymentAddress, payAmount, "Sample Text");
     this.setState({
       url: paymentURL,
-      amountF: parseInt(payAmount)
+      amountF: parseFloat(payAmount)
     }, () => console.log(this.state));
     this.updatePrices();
   }
