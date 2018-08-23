@@ -17,8 +17,8 @@ let BITBOX = new BITBOXCli();
 // = value.split('~');   return valuesArray; } socket1.emit('SubAdd', {subs:
 // subscription}); socket1.on('m', (message) => {   console.log(message);   var
 // data = unpack(message);   console.log(data);   if (data.length > 5 &&
-// data[4] === "1") {     price = parseFloat(data[5])     console.log(price);
-// } });
+// data[4] === "1") {     price = parseFloat(data[5])     console.log(price); }
+// });
 import {getBIP21URL, generateNewAddress} from '../../services/paymentApi';
 
 let xpub = "xpub6C6EThH99dAScJJP16oobAKyaVmviS9uNZR4n1dRZxz4icFuaYvLHRt8aKpaMQYsWNH17JxpcwS4" +
