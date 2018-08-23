@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import {Button} from 'react-bootstrap';
 import axios from 'axios';
-import CCC from './ccc-streamer-utilities';
+let CCC = require('./ccc-streamer-utilities');
 import './style.scss';
 import QRCode from 'qrcode-react';
 import NumPad from 'react-numpad';
@@ -11,15 +11,14 @@ import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:3000');
 let BITBOXCli = require('bitbox-cli/lib/bitbox-cli').default;
 let BITBOX = new BITBOXCli();
-const streamUrl = "https://streamer.cryptocompare.com/";
-const socket1 = openSocket(streamUrl);
-let prices = {};
-const subscription = ['5~CCCAGG~BCH~CAD'];
-socket1.emit('SubAdd', {subs: subscription});
-
-socket1.on('m', (message) => {
-  console.log(message);
-});
+// const streamUrl = "https://streamer.cryptocompare.com/"; const socket1 =
+// openSocket(streamUrl); let prices = {}; const subscription =
+// ['5~CCCAGG~BCH~CAD']; let price; var unpack = (value) => {   let valuesArray
+// = value.split('~');   return valuesArray; } socket1.emit('SubAdd', {subs:
+// subscription}); socket1.on('m', (message) => {   console.log(message);   var
+// data = unpack(message);   console.log(data);   if (data.length > 5 &&
+// data[4] === "1") {     price = parseFloat(data[5])     console.log(price);
+// } });
 import {getBIP21URL, generateNewAddress} from '../../services/paymentApi';
 
 let xpub = "xpub6C6EThH99dAScJJP16oobAKyaVmviS9uNZR4n1dRZxz4icFuaYvLHRt8aKpaMQYsWNH17JxpcwS4" +
