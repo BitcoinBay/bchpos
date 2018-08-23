@@ -1,10 +1,8 @@
 /* eslint consistent-return:0 */
 
 const app = require('express')();
-const mongoose = require('mongoose');
 const { resolve } = require('path');
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const morgan = require('morgan');

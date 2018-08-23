@@ -12,6 +12,8 @@ import QRCode from 'qrcode-react';
 import NumPad from 'react-numpad';
 import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:3000');
+const streamUrl = "https://streamer.cryptocompare.com/";
+const socket1 = openSocket(streamUrl);
 let BITBOXCli = require('bitbox-cli/lib/bitbox-cli').default;
 let BITBOX = new BITBOXCli();
 
