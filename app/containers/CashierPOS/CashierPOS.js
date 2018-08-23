@@ -22,8 +22,9 @@ socket1.on('m', (message) => {
 });
 import {getBIP21URL, generateNewAddress} from '../../services/paymentApi';
 
-let xpub = "xpub6C6EThH99dAScJJP16oobAKyaVmviS9uNZR4n1dRZxz4icFuaYvLHRt8aKpaMQYsWNH17JxpcwS4" +
-    "EGcTv47UrH821UoY2utXaATFswDdiZK";
+let xpub = "xpub6C6EThH99dAScJJP16oobAKyaVmviS9uNZR4n1dRZxz4icFuaYvLHRt8aKpaMQYsWNH17JxpcwS4EGcTv47UrH821UoY2utXaATFswDdiZK";
+
+let defaultWebURL = "https://www.meetup.com/The-Bitcoin-Bay";
 
 export default class CashierPOS extends Component {
   constructor(props) {
@@ -40,7 +41,8 @@ export default class CashierPOS extends Component {
       url: xpub,
       amountF: 0,
       amountC: 0,
-      fiat: 'CAD'
+      fiat: 'CAD',
+      socketData: []
     }
     this.sendSocketIO = this
       .sendSocketIO
@@ -51,7 +53,8 @@ export default class CashierPOS extends Component {
     socket.emit('event', msg);
   }
   convertPrice(fiat) {
-    return parseFloat(((parseFloat(1 / (this.state.cryptoPrice.CAD))) * fiat));
+    let convertedAmount = parseFloat(((parseFloat(1 / (this.state.cryptoPrice.CAD))) * fiat));
+    return convertedAmount;
   }
   updatePrices() {
     axios
@@ -60,12 +63,12 @@ export default class CashierPOS extends Component {
         const crypto = res.data.BCH;
         this.setState({
           cryptoPrice: crypto
-        }, () => console.log(this.state));
+        }, () => console.log(this.state.cryptoPrice.CAD));
       })
       .then(res => {
         this.setState({
           amountC: this.convertPrice(this.state.amountF)
-        })
+        }, () => console.log(this.state.amountC));
       });
   }
 
@@ -74,12 +77,12 @@ export default class CashierPOS extends Component {
   // coded xpub index "5", payment amount "0.5 BCH", and label text "Sample Text"
   handleClick = (payAmount) => {
     this.setState({isLoading: true});
-    let paymentAddress = generateNewAddress(xpub, 5);
+    let paymentAddress = generateNewAddress(xpub, 1);
     let paymentURL = getBIP21URL(paymentAddress, payAmount, "Sample Text");
     this.setState({
       url: paymentURL,
       amountF: parseFloat(payAmount)
-    }, () => console.log(this.state));
+    }, () => console.log(this.state.amountF));
     this.updatePrices();
   }
 
@@ -92,7 +95,7 @@ export default class CashierPOS extends Component {
         </Helmet>
         <h1>CashierPOS</h1>
         <div className="component-app">
-          <QRCode value={this.state.url}/>
+          <QRCode value={ this.state.url == xpub ? defaultWebURL : this.state.url }/>
           <h1>Select your currency</h1>
           {/*
             <Display value={this.state.next || this.state.total || "0"} />
@@ -110,7 +113,7 @@ export default class CashierPOS extends Component {
             <button
               type="button"
               className="btn btn-default pay"
-              onClick={() => this.sendSocketIO(this.state.amountC)}>Pay with BCH</button>
+              onClick={() => this.sendSocketIO([this.state.amountC, this.state.amountF, this.state.url])}>Pay with BCH</button>
           </div>
         </div>
       </article>
