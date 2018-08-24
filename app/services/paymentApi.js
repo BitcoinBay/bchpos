@@ -28,7 +28,16 @@ m / purpose' / coin_type' / account' / change / address_index
 3. scan addresses of the external chain; respect the gap limit described below
 4. if no transactions are found on the external chain, stop discovery
 5. if there are some transactions, increase the account index and go to step 1
+
+https://rest.bitcoin.com/v1/address/details/[%221BFHGm4HzqgXXyNX8n7DsQno5DAC4iLMRA%22,%22bitcoincash:qp7ekaepv3wf2nq035hevcma4x9sxmp3w56048g6ra%22,%20%221PY6YRssqLWCWFLvJfcCk6ZaKK5DsU7Jyz%22,%20%20%221Atyy5h4SSdqWRuS8pzxgTb4bMe7ZpdunP%22,%20%2218CisDmjM1MmM1MjtqUHPgmoLhZcSJJTKD%22,%20%20%221Pqth7yp5ZkTSbx6Tr8vmTN2ACedB7MeEV%22]
 */
+
+export function searchEmptyAddress(xpubkey) {
+  initBITBOX();
+  let checkAddress = BITBOX.Address.fromXPub(xpubkey, `0/${index}`);
+//  console.log(newAddress);
+  return checkAddress;
+}
 
 export function generateNewAddress(xpubkey, index) {
   initBITBOX();

@@ -5,6 +5,7 @@ import {Button} from 'react-bootstrap';
 import axios from 'axios';
 import CCC from './ccc-streamer-utilities';
 import './style.scss';
+import IMG from '../../images/bitcoin-bay.jpg';
 import QRCode from 'qrcode-react';
 import NumPad from 'react-numpad';
 import openSocket from 'socket.io-client';
@@ -93,23 +94,24 @@ export default class CashierPOS extends Component {
           <title>Cashier POS Page</title>
           <meta name="description" content="CashierPOS Page"/>
         </Helmet>
-        <h1>CashierPOS</h1>
+        <img src={IMG} height="400" width="400"/>
+        <h4>CashierPOS</h4>
         <div className="component-app">
-          <QRCode value={ this.state.url == xpub ? defaultWebURL : this.state.url }/>
-          <h1>Select your currency</h1>
+          <h4>Select your currency</h4>
           {/*
             <Display value={this.state.next || this.state.total || "0"} />
             <ButtonPanel clickHandler={this.handleClick} />
           */}
+          <QRCode value={ this.state.url == xpub ? defaultWebURL : this.state.url }/>
           <div className="pad">
             <NumPad.Number
               onChange={(value) => {
               this.handleClick(value)
             }}
-              label={'Total'}
-              placeholder={'my placeholder'}
-              position={'startBottomLeft'}
-              value={100}/>
+              label={'Total: $'}
+              placeholder={'0'}
+              position={'startTopLeft'}
+              />
             <button
               type="button"
               className="btn btn-default pay"

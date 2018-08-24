@@ -36,11 +36,15 @@ export default class CustomerPOS extends Component {
   render() {
     return (
       <article>
+        <Helmet>
+          <title>Customer POS Page</title>
+          <meta name="description" content="CashierPOS Page"/>
+        </Helmet>
         <img src={IMG} height="400" width="400"/>
-        <h2>BCH</h2>
-        <h1>{this.state.amountC}</h1>
-        <h2>CAD</h2>
-        <h1>{this.state.amountF}</h1>
+        <h4>BCH</h4>
+        <h3>{this.state.amountC} BCH</h3>
+        <h4>CAD</h4>
+        <h3>${this.state.amountF} CAD</h3>
         <QRCode value={ this.state.url == '' ? defaultWebURL : this.state.url } />
       </article>
     );
