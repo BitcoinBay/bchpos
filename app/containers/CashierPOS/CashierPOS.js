@@ -21,7 +21,7 @@ socket1.emit('SubAdd', {subs: subscription});
 socket1.on('m', (message) => {
   console.log(message);
 });
-import {getBIP21URL, generateNewAddress} from '../../services/paymentApi';
+import {getBIP21URL, generateNewAddress, searchEmptyAddress} from '../../services/paymentApi';
 
 let xpub = "xpub6C6EThH99dAScJJP16oobAKyaVmviS9uNZR4n1dRZxz4icFuaYvLHRt8aKpaMQYsWNH17JxpcwS4EGcTv47UrH821UoY2utXaATFswDdiZK";
 
@@ -48,6 +48,10 @@ export default class CashierPOS extends Component {
     this.sendSocketIO = this
       .sendSocketIO
       .bind(this);
+  }
+
+  componentDidMount () {
+    console.log(searchEmptyAddress(xpub));
   }
 
   sendSocketIO(msg) {

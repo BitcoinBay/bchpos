@@ -25,7 +25,7 @@ m / purpose' / coin_type' / account' / change / address_index
 
 1. derive the first account's node (index = 0)
 2. derive the external chain node of this account
-3. scan addresses of the external chain; respect the gap limit described below
+3. scan addresses of the external chain; respect the gap limit (20) described below
 4. if no transactions are found on the external chain, stop discovery
 5. if there are some transactions, increase the account index and go to step 1
 
@@ -34,9 +34,27 @@ https://rest.bitcoin.com/v1/address/details/[%221BFHGm4HzqgXXyNX8n7DsQno5DAC4iLM
 
 export function searchEmptyAddress(xpubkey) {
   initBITBOX();
-  let checkAddress = BITBOX.Address.fromXPub(xpubkey, `0/${index}`);
+  let addressIndexArray = [];
+  let POSTRequest = ''
+  let i = 0;
+
+  while (addressIndexArray.length == 0) {
+    POSTRequest = POSTRequest + "[";
+    for (i = 0; i < 20; i++) {
+      let checkAddress = BITBOX.Address.fromXPub(xpubkey, `0/${i}`);
+      POSTRequest = POSTRequest + checkAddress;
+      if (i != 19) {
+        POSTRequest = POSTRequest + ",";
+      }
+    }
+
+    let output = axios
+      .get(`https://rest.bitcoin.com/v1/address/details/${POSTRequest}`)
+      .then(res => { return res });
+  }
+
 //  console.log(newAddress);
-  return checkAddress;
+  return output;
 }
 
 export function generateNewAddress(xpubkey, index) {
