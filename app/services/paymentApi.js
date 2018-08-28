@@ -35,26 +35,40 @@ https://rest.bitcoin.com/v1/address/details/[%221BFHGm4HzqgXXyNX8n7DsQno5DAC4iLM
 export function searchEmptyAddress(xpubkey) {
   initBITBOX();
   let addressIndexArray = [];
-  let POSTRequest = ''
+  let POSTRequest = '';
   let i = 0;
+  let output;
 
   while (addressIndexArray.length == 0) {
-    POSTRequest = POSTRequest + "[";
     for (i = 0; i < 20; i++) {
       let checkAddress = BITBOX.Address.fromXPub(xpubkey, `0/${i}`);
-      POSTRequest = POSTRequest + checkAddress;
+      addressIndexArray.push(checkAddress);
+      POSTRequest = POSTRequest + "%22" + checkAddress + "%22";
       if (i != 19) {
         POSTRequest = POSTRequest + ",";
       }
     }
 
-    let output = axios
-      .get(`https://rest.bitcoin.com/v1/address/details/${POSTRequest}`)
-      .then(res => { return res });
-  }
 
+    let output = axios
+      .get(`https://rest.bitcoin.com/v1/address/details/%5B${POSTRequest}%5D`)
+      .then(res => { console.log(res.data[0]) });
+  }
+/*
+    let output = axios
+      .get(`https://rest.bitcoin.com/v1/address/details/%5B${POSTRequest}%5D`)
+      .then(res => {
+        for (i = 0; i < res.length; i++) {
+          if (res.data[i].totalReceivedSat == 0) {
+            addressIndexArray.push(res.data[i].cashAddress);
+          }
+        }
+        console.log(addressIndexArray);
+      })
+  }
+*/
 //  console.log(newAddress);
-  return output;
+  return addressIndexArray;
 }
 
 export function generateNewAddress(xpubkey, index) {
