@@ -51,7 +51,7 @@ export default class CashierPOS extends Component {
   }
 
   componentDidMount () {
-    console.log(searchEmptyAddress(xpub));
+    searchEmptyAddress(xpub);
   }
 
   sendSocketIO(msg) {
@@ -83,7 +83,7 @@ export default class CashierPOS extends Component {
   handleClick = (payAmount) => {
     this.setState({isLoading: true});
     let paymentAddress = generateNewAddress(xpub, 1);
-    let paymentURL = getBIP21URL(paymentAddress, payAmount, "Sample Text");
+    let paymentURL = getBIP21URL(paymentAddress, payAmount, "Bitcoin Bay");
     this.setState({
       url: paymentURL,
       amountF: parseFloat(payAmount)

@@ -10,7 +10,7 @@ async function initBITBOX() {
 }
 
 // payAmount is denominated in 1 BTC (BCH) base value
-export function getBIP21URL(pubkey, payAmount, payLabel) {
+export async function getBIP21URL(pubkey, payAmount, payLabel) {
   initBITBOX();
   let bip21options = {
     amount: payAmount,                  //Value in BTC decimals
@@ -32,27 +32,31 @@ m / purpose' / coin_type' / account' / change / address_index
 https://rest.bitcoin.com/v1/address/details/[%221BFHGm4HzqgXXyNX8n7DsQno5DAC4iLMRA%22,%22bitcoincash:qp7ekaepv3wf2nq035hevcma4x9sxmp3w56048g6ra%22,%20%221PY6YRssqLWCWFLvJfcCk6ZaKK5DsU7Jyz%22,%20%20%221Atyy5h4SSdqWRuS8pzxgTb4bMe7ZpdunP%22,%20%2218CisDmjM1MmM1MjtqUHPgmoLhZcSJJTKD%22,%20%20%221Pqth7yp5ZkTSbx6Tr8vmTN2ACedB7MeEV%22]
 */
 
-export function searchEmptyAddress(xpubkey) {
+export async function searchEmptyAddress(xpubkey) {
   initBITBOX();
-  let addressIndexArray = [];
+  let emptyAddressArray = [];
   let POSTRequest = '';
   let i = 0;
   let output;
 
-  while (addressIndexArray.length == 0) {
+  while (emptyAddressArray.length == 0) {
     for (i = 0; i < 20; i++) {
       let checkAddress = BITBOX.Address.fromXPub(xpubkey, `0/${i}`);
-      addressIndexArray.push(checkAddress);
+      emptyAddressArray.push(checkAddress);
       POSTRequest = POSTRequest + "%22" + checkAddress + "%22";
       if (i != 19) {
         POSTRequest = POSTRequest + ",";
       }
     }
 
-
     let output = axios
       .get(`https://rest.bitcoin.com/v1/address/details/%5B${POSTRequest}%5D`)
-      .then(res => { console.log(res.data[0]) });
+      .then(res => {
+        return res.data;
+      })
+      .then(res => {
+        console.log(res);
+      });
   }
 /*
     let output = axios
@@ -60,18 +64,18 @@ export function searchEmptyAddress(xpubkey) {
       .then(res => {
         for (i = 0; i < res.length; i++) {
           if (res.data[i].totalReceivedSat == 0) {
-            addressIndexArray.push(res.data[i].cashAddress);
+            emptyAddressArray.push(res.data[i].cashAddress);
           }
         }
-        console.log(addressIndexArray);
+        console.log(emptyAddressArray);
       })
   }
 */
 //  console.log(newAddress);
-  return addressIndexArray;
+  return emptyAddressArray;
 }
 
-export function generateNewAddress(xpubkey, index) {
+export async function generateNewAddress(xpubkey, index) {
   initBITBOX();
   let newAddress = BITBOX.Address.fromXPub(xpubkey, `0/${index}`);
 //  console.log(newAddress);
