@@ -16,7 +16,7 @@ const streamUrl = "https://streamer.cryptocompare.com/";
 const socket1 = openSocket(streamUrl);
 let prices = {};
 const subscription = ['5~CCCAGG~BCH~CAD'];
-socket1.emit('SubAdd', {subs: subscription});
+//socket1.emit('SubAdd', {subs: subscription});
 
 socket1.on('m', (message) => {
   console.log(message);
@@ -51,6 +51,7 @@ export default class CashierPOS extends Component {
   }
 
   componentDidMount () {
+    this.updatePrices();
     searchEmptyAddress(xpub);
   }
 
@@ -68,27 +69,28 @@ export default class CashierPOS extends Component {
         const crypto = res.data.BCH;
         this.setState({
           cryptoPrice: crypto
-        }, () => console.log(this.state.cryptoPrice.CAD));
+        }, () => console.log(this.state.cryptoPrice));
       })
-      .then(res => {
-        this.setState({
-          amountC: this.convertPrice(this.state.amountF)
-        }, () => console.log(this.state.amountC));
-      });
   }
 
-  // componentDidMount() {   let updateTimer = setInterval(this.updatePrices(),
-  // 5000); } componentWillUnmount() {   clearInterval(this.updateTimer); } hard
-  // coded xpub index "5", payment amount "0.5 BCH", and label text "Sample Text"
   handleClick = (payAmount) => {
-    this.setState({isLoading: true});
-    let paymentAddress = generateNewAddress(xpub, 1);
-    let paymentURL = getBIP21URL(paymentAddress, payAmount, "Bitcoin Bay");
-    this.setState({
-      url: paymentURL,
-      amountF: parseFloat(payAmount)
-    }, () => console.log(this.state.amountF));
-    this.updatePrices();
+    if (payAmount == 0) {
+      return;
+    } else {
+      this.setState({
+        isLoading: true,
+      });
+      let paymentValue = this.convertPrice(payAmount);
+      let paymentAddress = generateNewAddress(xpub, 1);
+      let paymentURL = getBIP21URL(paymentAddress, paymentValue, "Bitcoin Bay");
+      this.updatePrices();
+      this.setState({
+        url: paymentURL,
+        amountC: paymentValue,
+        amountF: parseFloat(payAmount),
+        isLoading: false
+      });
+    }
   }
 
   render() {
@@ -101,12 +103,22 @@ export default class CashierPOS extends Component {
         <img src={IMG} height="400" width="400"/>
         <h4>CashierPOS</h4>
         <div className="component-app">
-          <h4>Select your currency</h4>
+          <h4>Price</h4>
+          <p>{this.state.cryptoPrice.CAD}</p>
           {/*
             <Display value={this.state.next || this.state.total || "0"} />
             <ButtonPanel clickHandler={this.handleClick} />
           */}
-          <QRCode value={ this.state.url == xpub ? defaultWebURL : this.state.url }/>
+          { this.state.url == xpub ? 
+              <QRCode value={defaultWebURL} /> 
+              :
+              <div>
+                <QRCode value={this.state.url} />
+                <p>{this.state.url}</p>
+                <h4>BCH</h4>
+                <p>{this.state.amountC}</p>
+              </div>
+          }
           <div className="pad">
             <NumPad.Number
               onChange={(value) => {
@@ -119,7 +131,7 @@ export default class CashierPOS extends Component {
             <button
               type="button"
               className="btn btn-default pay"
-              onClick={() => this.sendSocketIO([this.state.amountC, this.state.amountF, this.state.url])}>Pay with BCH</button>
+              onClick={() => this.sendSocketIO([this.state.amountC, this.state.amountF, this.state.url, this.state.cryptoPrice.CAD])}>Pay with BCH</button>
           </div>
         </div>
       </article>

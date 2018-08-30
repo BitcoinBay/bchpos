@@ -10,7 +10,7 @@ async function initBITBOX() {
 }
 
 // payAmount is denominated in 1 BTC (BCH) base value
-export async function getBIP21URL(pubkey, payAmount, payLabel) {
+export function getBIP21URL(pubkey, payAmount, payLabel) {
   initBITBOX();
   let bip21options = {
     amount: payAmount,                  //Value in BTC decimals
@@ -32,7 +32,7 @@ m / purpose' / coin_type' / account' / change / address_index
 https://rest.bitcoin.com/v1/address/details/[%221BFHGm4HzqgXXyNX8n7DsQno5DAC4iLMRA%22,%22bitcoincash:qp7ekaepv3wf2nq035hevcma4x9sxmp3w56048g6ra%22,%20%221PY6YRssqLWCWFLvJfcCk6ZaKK5DsU7Jyz%22,%20%20%221Atyy5h4SSdqWRuS8pzxgTb4bMe7ZpdunP%22,%20%2218CisDmjM1MmM1MjtqUHPgmoLhZcSJJTKD%22,%20%20%221Pqth7yp5ZkTSbx6Tr8vmTN2ACedB7MeEV%22]
 */
 
-export async function searchEmptyAddress(xpubkey) {
+export function searchEmptyAddress(xpubkey) {
   initBITBOX();
   let emptyAddressArray = [];
   let POSTRequest = '';
@@ -75,7 +75,7 @@ export async function searchEmptyAddress(xpubkey) {
   return emptyAddressArray;
 }
 
-export async function generateNewAddress(xpubkey, index) {
+export function generateNewAddress(xpubkey, index) {
   initBITBOX();
   let newAddress = BITBOX.Address.fromXPub(xpubkey, `0/${index}`);
 //  console.log(newAddress);
