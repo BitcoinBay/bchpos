@@ -10,6 +10,7 @@ import NavBar from '../../components/NavBar';
 import Login from '../Login/Loadable';
 import Register from '../Register/Loadable';
 import Ledger from '../Ledger/Loadable';
+import Footer from '../../components/Footer';
 import './style.scss';
 
 const App = () => (
@@ -25,6 +26,7 @@ const App = () => (
       <Route path="/ledger" component={Ledger} />
       <Route path="" component={NotFoundPage} />
     </Switch>
+    <Footer />
   </div>
 );
 export default App;

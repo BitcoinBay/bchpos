@@ -1,4 +1,4 @@
-/**
+/*
  * app.js
  *
  * This is the entry file for the application, only setup and boilerplate
@@ -60,11 +60,11 @@ const render = () => {
     <Provider store={store}>
       {/* <LanguageProvider messages={messages}> */}
       <ConnectedRouter history={history}>
-      <App />
-    </ConnectedRouter>
+        <App />
+      </ConnectedRouter>
       {/* </LanguageProvider> */}
-    </Provider>, MOUNT_NODE
-);
+    </Provider>, MOUNT_NODE,
+  );
 };
 
 if (module.hot) {
