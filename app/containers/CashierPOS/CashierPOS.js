@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import {Button} from 'react-bootstrap';
 import axios from 'axios';
-import CCC from './ccc-streamer-utilities';
 import './style.scss';
 import IMG from '../../images/bitcoin-bay.jpg';
 import QRCode from 'qrcode-react';
@@ -23,7 +22,8 @@ socket1.on('m', (message) => {
 });
 import {getBIP21URL, generateNewAddress, searchEmptyAddress} from '../../services/paymentApi';
 
-let xpub = "xpub6C6EThH99dAScJJP16oobAKyaVmviS9uNZR4n1dRZxz4icFuaYvLHRt8aKpaMQYsWNH17JxpcwS4EGcTv47UrH821UoY2utXaATFswDdiZK";
+let xpub = "xpub6C6EThH99dAScJJP16oobAKyaVmviS9uNZR4n1dRZxz4icFuaYvLHRt8aKpaMQYsWNH17JxpcwS4" +
+    "EGcTv47UrH821UoY2utXaATFswDdiZK";
 
 let defaultWebURL = "https://www.meetup.com/The-Bitcoin-Bay";
 
@@ -50,7 +50,7 @@ export default class CashierPOS extends Component {
       .bind(this);
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.updatePrices();
     searchEmptyAddress(xpub);
   }
@@ -77,19 +77,12 @@ export default class CashierPOS extends Component {
     if (payAmount == 0) {
       return;
     } else {
-      this.setState({
-        isLoading: true,
-      });
+      this.setState({isLoading: true});
       let paymentValue = this.convertPrice(payAmount);
       let paymentAddress = generateNewAddress(xpub, 1);
       let paymentURL = getBIP21URL(paymentAddress, paymentValue, "Bitcoin Bay");
       this.updatePrices();
-      this.setState({
-        url: paymentURL,
-        amountC: paymentValue,
-        amountF: parseFloat(payAmount),
-        isLoading: false
-      });
+      this.setState({url: paymentURL, amountC: paymentValue, amountF: parseFloat(payAmount), isLoading: false});
     }
   }
 
@@ -109,16 +102,15 @@ export default class CashierPOS extends Component {
             <Display value={this.state.next || this.state.total || "0"} />
             <ButtonPanel clickHandler={this.handleClick} />
           */}
-          { this.state.url == xpub ? 
-              <QRCode value={defaultWebURL} /> 
-              :
-              <div>
-                <QRCode value={this.state.url} />
-                <p>{this.state.url}</p>
-                <h4>BCH</h4>
-                <p>{this.state.amountC}</p>
-              </div>
-          }
+          {this.state.url == xpub
+            ? <QRCode value={defaultWebURL}/>
+            : <div>
+              <QRCode value={this.state.url}/>
+              <p>{this.state.url}</p>
+              <h4>BCH</h4>
+              <p>{this.state.amountC}</p>
+            </div>
+}
           <div className="pad">
             <NumPad.Number
               onChange={(value) => {
@@ -126,8 +118,7 @@ export default class CashierPOS extends Component {
             }}
               label={'Total: $'}
               placeholder={'0'}
-              position={'startTopLeft'}
-              />
+              position={'startTopLeft'}/>
             <button
               type="button"
               className="btn btn-default pay"
