@@ -1,79 +1,12 @@
 .footer{
-  max-width: 650px;
-  width: 75%;
-  margin: auto;
-  position: relative;
+  width: 100%;
+  position: fixed;
   display: block;
-  font-family: Montserrat;
-  font-weight: 200;
-  color: #FFF;
-}
-
-.ul{
-  display: -webkit-flex;display: -moz-flex;display: -ms-flex;display: -o-flex;display: flex;
-  justify-content: space-around;
-  list-style: none;
+  bottom: 0px;
+  padding-bottom: 60px;
+  background: black;
+  bottom: 0;
+  left: 0;
   text-align: center;
-  padding: 0;
-  -webkit-flex-wrap: wrap;-moz-flex-wrap: wrap;-ms-flex-wrap: wrap;-o-flex-wrap: wrap;flex-wrap: wrap;
-}
-
-.ul li{
-  display: block;
-  margin: 10px;
-}
-
-.ul li a{
-  text-decoration: none;
-  color: inherit;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s;
-  position: relative;
-  padding: 7px 11px;
-	  font-size: 12px;
-}
-
-.ul li a:hover{
-  color: #c1c1c1;
-}
-
-.ul li a:before {
-	content: '';
-	height: 1px;
-  background: white;
-	position: absolute;
-	pointer-events: none;
-	bottom: -5px;
-	left: 0;
-	right: 0;
-  opacity: 0;
-	transform: scale(0, 1);
-	transition: all 200ms;
-}
-
-.ul li a:hover:before {
-	opacity: 1;
-	transform: scale(1, 1);
-}
-
-.ul a .img {
- 	position: absolute;
- 	top: 0;
- 	left: 0;
- 	right: 0;
- 	height: 40px;
- 	width: 100%;
-  opacity: 0;
-  transition: all linear .3s;
-}
-
-.ul .img img {
-  height: 100%;
-	width: auto;
-}
-
-.ul a:hover .img {
- 	top: -50px;
-  opacity: 1;
+  color: white;
 }
