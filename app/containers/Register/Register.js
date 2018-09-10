@@ -72,7 +72,7 @@ export default class Register extends Component { // eslint-disable-line react/p
                 name="username"
                 placeholder="Username"
                 value={this.state.username}
-                onChange={this.handleChange} 
+                onChange={this.handleChange}
               />
             </div>
           </div>
@@ -89,7 +89,7 @@ export default class Register extends Component { // eslint-disable-line react/p
                 type="password"
                 name="password"
                 value={this.state.password}
-                onChange={this.handleChange} 
+                onChange={this.handleChange}
               />
             </div>
           </div>

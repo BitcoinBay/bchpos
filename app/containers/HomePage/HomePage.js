@@ -9,6 +9,9 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import './style.scss';
 
+
+import axios from 'axios';
+
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
    * when initial state username is not null, submit the form to load repos
@@ -19,6 +22,12 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
         .props
         .onSubmitForm();
     }
+
+    axios
+      .get('/api/v1/blockdata')
+      .then(res => {
+        console.log(res.data);
+      })
   }
 
   render() {
@@ -51,7 +60,7 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
                   type="text"
                   placeholder="flexdinesh"
                   value={this.props.username}
-                  onChange={this.props.onChangeUsername} 
+                  onChange={this.props.onChangeUsername}
                 />
               </label>
             </form>

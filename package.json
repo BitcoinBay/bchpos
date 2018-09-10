@@ -29,6 +29,7 @@
     "test": "cross-env NODE_ENV=test jest --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll"
   },
+  "proxy": "localhost:3001",
   "dependencies": {
     "@material-ui/core": "^1.4.3",
     "axios": "^0.18.0",
