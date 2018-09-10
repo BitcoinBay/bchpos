@@ -1,19 +1,21 @@
 /* eslint consistent-return:0 */
 
-const app = require('express')();
 const {resolve} = require('path');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const app = require('express')();
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const session = require('express-session');
+
 const setup = require('./middlewares/frontendMiddleware');
 const port = require('./util//port');
 const argv = require('./util/argv');
 const dbConnection = require('./database');
-const MongoStore = require('connect-mongo')(session);
 const user = require('./routes/user');
+const api = require('./api');
 
 setup(app, {
   outputPath: resolve(process.cwd(), 'build'),
@@ -62,3 +64,4 @@ app.use(passport.session()); // calls the deserializeUser
 
 // Routes
 app.use('/user', user);
+app.use('/api/v1', api);
