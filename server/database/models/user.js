@@ -7,7 +7,6 @@ mongoose.promise = Promise;
 
 // Define userSchema
 const userSchema = new Schema({
-
   username: {
     type: String,
     unique: false,
@@ -43,4 +42,3 @@ userSchema.pre('save', function (next) {
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
-

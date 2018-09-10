@@ -14,3 +14,4 @@ yarn-error.log
 
 # Locks
 package-lock.json
+yarn.lock

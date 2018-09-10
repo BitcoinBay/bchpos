@@ -41,7 +41,6 @@
     "body-parser": "^1.18.3",
     "chalk": "^2.3.2",
     "clipboard": "^2.0.1",
-    "coinmarketcap-api": "^2.3.2",
     "compression": "1.7.2",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^2.0.1",
